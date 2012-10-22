@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" class="step slide" data-y="0" data-x="0">
+<h1>Hokkaido.pm Casual#6</h1>
+
+<p>@aloelight</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="1200">
+<h2>今回のテーマはORM</h2>
+
+</div>
+<div class="step slide" data-y="0" data-x="2400">
+<h2>主なORM</h2>
+
+<ul>
+<li>Class::DBI</li>
+<li>DBIx::Class</li>
+<li>Data::ObjectDriver</li>
+<li>Rose::DB</li>
+<li>Data::Model</li>
+<li>DBIx::MoCo</li>
+<li>DBIx::Skinny</li>
+<li>Teng</li>
+<li>等々</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="3600">
+<h2>私のDB関連モジュール遍歴</h2>
+
+<ol>
+<li>DBI</li>
+<li>DBI + SQL::Abstract</li>
+<li>Data::ObjectDriver</li>
+<li>DBIx::Skinny</li>
+<li>Teng</li>
+</ol>
+
+</div>
+<div class="step slide" data-y="0" data-x="4800">
+<h2>最近の流れ</h2>
+
+<ul>
+<li>基本は薄く，軽くの方向
+<ul>
+<li>目立つ人が大規模な現場にいるからかも</li>
+</ul></li>
+<li>ORMいるよ派
+<ul>
+<li>DBIx::ClassからDBIx::Skinny，Tengへ</li>
+<li>今からならTengでいいと思う</li>
+<li>最低限の機能が入ってる</li>
+</ul></li>
+<li>ORMいらないよ派
+<ul>
+<li>DBIのsubclassで戦ったりしてる</li>
+<li>Amon2::DBI</li>
+<li>DBIx::Sunny</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="0">
+<h2>DBIのsubclass</h2>
+
+<p><a href="p3rl.org/DBIx::Sunny">DBIx::Sunny</a>を見るといいじゃないかと思います</p>
+
+</div>
+<div class="step slide" data-y="800" data-x="1200">
+<h2>参考リンク</h2>
+
+<p>以下を読むといいんじゃないかと思います</p>
+
+<p>「モダンPerlの世界へようこそ」
+ - <a href="http://gihyo.jp/dev/serial/01/modern-perl/0036">第36回　SQL::Abstract：簡単なSQLはより簡単に</a>
+ - <a href="http://gihyo.jp/dev/serial/01/modern-perl/0038">第38回　DBIx::Class：拡張性の高さが売りではありますが</a>
+ - <a href="http://gihyo.jp/dev/serial/01/modern-perl/0039">第39回　DBIx::Skinny：DBIx::Classに不満を感じたら</a></p>
+
+<p>その他
+ - <a href="http://yapcasia.org/2012/talk/show/3570fad2-d484-11e1-964b-37a36aeab6a4">very simple ORMapper Teng</a>
+ - <a href="http://perl-users.jp/articles/advent-calendar/2011/teng/">Perl Advent Calendar Teng 2011</a></p>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
