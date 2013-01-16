@@ -51,7 +51,7 @@ DEMO
 
 
 私が使うTest::\*モジュール
-------------------
+--------------------------
 
  * Test::More
  * Test::Exception
@@ -63,3 +63,11 @@ DEMO
  * Test::Fixture::DBI
  * DBIx::DataFactory
  * Plack::Test
+
+告知
+----
+
+Hokkaido.pm #9 2013年3月9日(土）
+
+おわり
+------
