@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" class="step slide" data-y="0" data-x="0">
+<h1>Hokkaido.pm Casual#9</h1>
+
+<p>@aloelight</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="1200">
+<h2>今回のテーマは『テスト』</h2>
+
+<ul>
+<li>Perlのテストの仕組み</li>
+<li>TDDの話し</li>
+<li>私が使うモジュール</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="2400">
+<h2>Perlのテストの仕組み</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Test_Anything_Protocol">TAP - Test Anything Protocol</a>を吐き出す個々のテストファイルを、prove(1)が<a href="https://metacpan.org/module/TAP::Harness">TAP::Harness</a>を起動して、いい感じに解釈してくれる。</p>
+
+<p>hirataraさんの<a href="http://d.hatena.ne.jp/hiratara/20090320/1237542892">perlのテストの仕組み(TAP::Harness) - 北海道苫小牧市出身のPGが書くブログ</a>にもう少しちゃんとした解説があります。</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="3600">
+<h2>TAPの概要</h2>
+
+<p>標準出力に以下のようなフォーマットで出力する</p>
+
+<pre><code>1..2                  # テストの数
+ok 1 - $n == $m       # 行頭が ok なら成功
+                      # ハイフン以降にテスト名等を書ける
+# comment             # #はコメント文になる
+not ok 2 - $n !== $m  # 行頭が not ok なら失敗
+</code></pre>
+
+<p>通常自分では書かないでTest::More等を使う</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="4800">
+<h2>テストの実行</h2>
+
+<p>複数のテストを実行するときはprove(1)を使う</p>
+
+<pre><code>prove scripts/*.t
+</code></pre>
+
+<p>prove(1)がTAPの出力を解析してくれるので、詳細な結果を見たい場合は直接実行するといいかもしれない</p>
+
+<pre><code>perl scripts/foo.t
+</code></pre>
+
+</div>
+<div class="step slide" data-y="800" data-x="0">
+<h2>DEMO</h2>
+
+<ul>
+<li><p>モジュールを作成しながら、テストを書いてみる</p>
+
+<pre><code>$ h2xs -AXc --skip-exporter -n Foo
+</code></pre></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="1200">
+<h2>私が使うTest::*モジュール</h2>
+
+<ul>
+<li>Test::More</li>
+<li>Test::Exception</li>
+<li>Test::Base::Less</li>
+<li>Test::MockObject</li>
+<li>Test::Mock::Guard</li>
+<li>Test::TCP</li>
+<li>Test::mysqld</li>
+<li>Test::Fixture::DBI</li>
+<li>DBIx::DataFactory</li>
+<li>Plack::Test</li>
+</ul>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
