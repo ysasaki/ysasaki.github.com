@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" class="step slide" data-y="0" data-x="0">
+<h1>Hokkaido.pm Castual#13</h1>
+
+<p>@aloelight</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="1200">
+<h2>自己紹介</h2>
+
+<ul>
+<li>Twitter @aloelight</li>
+<li>github ysasaki</li>
+<li>Webプログラマ</li>
+<li>業務ではPerlをメインで使う</li>
+<li>守備範囲はインフラからアプリ開発、保守・運用あたり</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="2400">
+<h2>モダンModule入門</h2>
+
+<ul>
+<li>今回はモジュールの作り方</li>
+<li>blessを使わないOOPなモジュールの書き方は<a href="https://github.com/ysasaki/ysasaki.github.com/blob/master/presentations/hokkaidopm-casual8/slide.md">Casual#8 モジュール定義入門</a>で解説済み</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="3600">
+<h2>Perl Moduleの大事なお約束</h2>
+
+<ul>
+<li>ファイル構造をCPAN形式に合わせる
+<ul>
+<li>cpan, cpanmからinstallできる</li>
+</ul></li>
+<li>テストを書く
+<ul>
+<li>テストを書かなくていいのは小学生まで</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="4800">
+<h2>CPAN形式の例</h2>
+
+<pre><code>Bar/
+├── Changes
+├── MANIFEST  
+├── Makefile.PL
+├── README
+├── lib
+│   └── Bar.pm
+└── t
+    └── Bar.t
+</code></pre>
+
+<ul>
+<li>こういう雛形を書きだすツールを使う</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="0">
+<h2>雛形生成用ツール</h2>
+
+<ul>
+<li>h2xs
+<ul>
+<li>perlに添付されているので大体どこにでもある</li>
+<li>どこでも使えるので、私はよくこれを使ってる</li>
+</ul></li>
+<li>pmsetup
+<ul>
+<li>1枚のスクリプト</li>
+<li>githubとかで有名Perl Mongerが公開しているcodeをもってきて自分用に書き換えて使う</li>
+<li>アップデートされないだろうし、お薦めしない</li>
+</ul></li>
+<li>module-starter(Module::Starter)
+<ul>
+<li>Pluginが書けた気がする</li>
+<li>h2xs使うならこっちのほうがいい</li>
+</ul></li>
+<li>module-setup(Module::Setup)
+<ul>
+<li>プラガブルな作り</li>
+<li>かなり柔軟で、このスライドの雛形もmodule-setupで作ってたりするが普段は使わない</li>
+</ul></li>
+<li>dzil(Dist::Zilla)
+<ul>
+<li>Moose使ってたりと依存が多くてでかい</li>
+<li>超絶プラガブル</li>
+<li>Pluginで雛形作成からCPANへリリースまで可能</li>
+<li>どのPluginを使えばいいのか悩むので素人にはお薦めしない</li>
+</ul></li>
+<li>milla(Dist::Milla)
+<ul>
+<li>世界のmiyagawaがいい塩梅にdzilのpluginをまとめたもの</li>
+</ul></li>
+<li>minil(Minilla)
+<ul>
+<li>dzilをsimpleにしたもの</li>
+<li>雛形生成からgithubへのpush, CPANにリリースまで出来る</li>
+</ul></li>
+<li>dist-maker(Dist::Maker)
+<ul>
+<li>使ったこと無いからよくわかりません</li>
+<li>gfxさん作</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="1200">
+<h2>独断で選ぶお薦めツール</h2>
+
+<ol>
+<li>minil(Minilla)
+<ul>
+<li>Pure Perlだとか色々制限があるが大抵は問題ないはず</li>
+<li>Pluginとかないから迷う必要もない</li>
+<li>小さいのでインストールしやすい</li>
+<li>まだまだ更新されそうなのでたまにアップデートしたほうがいいかも</li>
+</ul></li>
+<li>milla(Dist::Milla)
+<ul>
+<li>minilで足りなければこれ</li>
+</ul></li>
+<li>module-starter(Module::Starter)
+<ul>
+<li>ExtUtil::MakeMakerやModule::Build、Module::Installのどれを使うか選べる</li>
+<li>リリース作業は別途shipitを使う</li>
+</ul></li>
+<li>h2xs
+<ul>
+<li>ExtUtil::MakeMakerしか使えないけど、標準で付いてくる</li>
+<li>リリース作業は別途shipitを使う</li>
+</ul></li>
+</ol>
+
+</div>
+<div class="step slide" data-y="800" data-x="2400">
+<h2>おわり</h2>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
