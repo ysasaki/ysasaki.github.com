@@ -6,6 +6,8 @@ Hokkaido.pm Castual#13
 自己紹介
 ---------
 
+![icon](http://www.gravatar.com/avatar/b4ff5cbfba3187bf486733b00653950c.png)
+
  - Twitter @aloelight
  - github ysasaki
  - Webプログラマ
