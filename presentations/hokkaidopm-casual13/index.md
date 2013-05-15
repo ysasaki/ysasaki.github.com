@@ -84,10 +84,10 @@ CPAN形式の例
  1. milla(Dist::Milla)
    - minilで足りなければこれ
  1. module-starter(Module::Starter)
-   - ExtUtil::MakeMakerやModule::Build、Module::Installのどれを使うか選べる
+   - ExtUtils::MakeMakerやModule::Build、Module::Installのどれを使うか選べる
    - リリース作業は別途shipitを使う
  1. h2xs
-   - ExtUtil::MakeMakerしか使えないけど、標準で付いてくる
+   - ExtUtils::MakeMakerしか使えないけど、標準で付いてくる
    - リリース作業は別途shipitを使う
 
 おわり
