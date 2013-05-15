@@ -41,16 +41,21 @@
 <ul>
 <li>今回はモジュールの作り方</li>
 <li>blessを使わないOOPなモジュールの書き方は<a href="https://github.com/ysasaki/ysasaki.github.com/blob/master/presentations/hokkaidopm-casual8/slide.md">Casual#8 モジュール定義入門</a>で解説済み</li>
+<li>モジュールというかディストリビューション</li>
 </ul>
 
 </div>
 <div class="step slide" data-y="0" data-x="3600">
-<h2>Perl Moduleの大事なお約束</h2>
+<h2>作り方のポイント</h2>
 
 <ul>
 <li>ファイル構造をCPAN形式に合わせる
 <ul>
 <li>cpan, cpanmからinstallできる</li>
+</ul></li>
+<li>Installerの書き方の選択
+<ul>
+<li>Makefile.PLやBuild.PL</li>
 </ul></li>
 </ul>
 
@@ -71,17 +76,56 @@
 
 <ul>
 <li>手で作るのは面倒なので、こういう雛形を書きだすツールを使う</li>
-<li>Makefile.PLやBulid.PLは必要な項目を思い出すのが大変</li>
+<li>Makefile.PLやBulid.PLは必要なkeyを思い出すのが大変</li>
 <li>ツールを使うと必要なkeyは書いてあるので、書き換えるだけになる</li>
 </ul>
 
 </div>
 <div class="step slide" data-y="800" data-x="0">
+<h2>Installerの書き方</h2>
+
+<p><a href="http://gihyo.jp/dev/serial/01/modern-perl/0023">モダンPerlの世界へようこそ 第23回　Module::Build：MakeMakerの後継者を目指して</a>も参考になるので、時間のあるときに読むといいかも</p>
+
+</div>
+<div class="step slide" data-y="800" data-x="1200">
+<h2>ExtUtils::MakeMaker(EUMM)</h2>
+
+<ul>
+<li>標準モジュール</li>
+<li>Makefileを吐き出して、後の処理はmake(1)にまかせちゃう</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="2400">
+<h2>Module::Build(MB)</h2>
+
+<ul>
+<li>v5.9.4から標準モジュール</li>
+<li>Pure Perlで実装。make(1)には頼らない</li>
+<li>メタ情報関連を頑張った</li>
+<li>軽量版のModule::Build::Tinyがちょっと流行りっぽい</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="3600">
+<h2>Module::Install</h2>
+
+<ul>
+<li>非標準モジュールだが、dist内のinc/以下に自分自身を格納する</li>
+<li>EUMMのwrapper。make(1)を使う</li>
+<li>DSLっぽいsyntaxで一時期人気だった</li>
+<li>Module::Install自体にバグがあるとdistを再パッケージしないといけない</li>
+<li>プラガブルだけど作りがわかりづらい</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="4800">
 <h2>雛形生成用ツール</h2>
 
 <ul>
 <li>h2xs
 <ul>
+<li>EUMM</li>
 <li>perlに添付されているので大体どこにでもある</li>
 <li>どこでも使えるので、私はよくこれを使ってる</li>
 </ul></li>
@@ -93,6 +137,7 @@
 </ul></li>
 <li>module-starter(Module::Starter)
 <ul>
+<li>EUMM, MB, MIが選べる</li>
 <li>Pluginが書けた気がする</li>
 <li>h2xs使うならこっちのほうがいい</li>
 </ul></li>
@@ -114,6 +159,7 @@
 </ul></li>
 <li>minil(Minilla)
 <ul>
+<li>Module::Build::Tiny</li>
 <li>dzilをsimpleにしたもの</li>
 <li>雛形生成からgithubへのpush, CPANにリリースまで出来る</li>
 </ul></li>
@@ -125,7 +171,7 @@
 </ul>
 
 </div>
-<div class="step slide" data-y="800" data-x="1200">
+<div class="step slide" data-y="1600" data-x="0">
 <h2>独断で選ぶお薦めツール</h2>
 
 <ol>
@@ -153,7 +199,7 @@
 </ol>
 
 </div>
-<div class="step slide" data-y="800" data-x="2400">
+<div class="step slide" data-y="1600" data-x="1200">
 <h2>おわり</h2>
 
 </div>

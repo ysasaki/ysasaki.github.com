@@ -19,12 +19,15 @@ Hokkaido.pm Castual#13
 
  - 今回はモジュールの作り方
  - blessを使わないOOPなモジュールの書き方は[Casual#8 モジュール定義入門](https://github.com/ysasaki/ysasaki.github.com/blob/master/presentations/hokkaidopm-casual8/slide.md)で解説済み
-
-Perl Moduleの大事なお約束
--------------------------
+ - モジュールというかディストリビューション
+ 
+作り方のポイント
+----------------
 
  - ファイル構造をCPAN形式に合わせる
    - cpan, cpanmからinstallできる
+ - Installerの書き方の選択
+   - Makefile.PLやBuild.PL
 
 CPAN形式の例
 ------------
@@ -40,13 +43,44 @@ CPAN形式の例
         └── Bar.t
 
  - 手で作るのは面倒なので、こういう雛形を書きだすツールを使う
- - Makefile.PLやBulid.PLは必要な項目を思い出すのが大変
+ - Makefile.PLやBulid.PLは必要なkeyを思い出すのが大変
  - ツールを使うと必要なkeyは書いてあるので、書き換えるだけになる
+
+Installerの書き方
+-----------------
+
+[モダンPerlの世界へようこそ 第23回　Module::Build：MakeMakerの後継者を目指して](http://gihyo.jp/dev/serial/01/modern-perl/0023)も参考になるので、時間のあるときに読むといいかも
+
+
+ExtUtils::MakeMaker(EUMM)
+-------------------------
+
+ - 標準モジュール
+ - Makefileを吐き出して、後の処理はmake(1)にまかせちゃう
+
+
+Module::Build(MB)
+-------------
+
+ - v5.9.4から標準モジュール
+ - Pure Perlで実装。make(1)には頼らない
+ - メタ情報関連を頑張った
+ - 軽量版のModule::Build::Tinyがちょっと流行りっぽい
+
+Module::Install
+---------------
+
+ - 非標準モジュールだが、dist内のinc/以下に自分自身を格納する
+ - EUMMのwrapper。make(1)を使う
+ - DSLっぽいsyntaxで一時期人気だった
+ - Module::Install自体にバグがあるとdistを再パッケージしないといけない
+ - プラガブルだけど作りがわかりづらい
 
 雛形生成用ツール
 ----------------
 
  - h2xs
+   - EUMM
    - perlに添付されているので大体どこにでもある
    - どこでも使えるので、私はよくこれを使ってる
  - pmsetup
@@ -54,6 +88,7 @@ CPAN形式の例
    - githubとかで有名Perl Mongerが公開しているcodeをもってきて自分用に書き換えて使う
    - アップデートされないだろうし、お薦めしない
  - module-starter(Module::Starter)
+   - EUMM, MB, MIが選べる
    - Pluginが書けた気がする
    - h2xs使うならこっちのほうがいい
  - module-setup(Module::Setup)
@@ -67,6 +102,7 @@ CPAN形式の例
  - milla(Dist::Milla)
    - 世界のmiyagawaがいい塩梅にdzilのpluginをまとめたもの
  - minil(Minilla)
+   - Module::Build::Tiny
    - dzilをsimpleにしたもの
    - 雛形生成からgithubへのpush, CPANにリリースまで出来る
  - dist-maker(Dist::Maker)
