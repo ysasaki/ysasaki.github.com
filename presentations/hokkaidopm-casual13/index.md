@@ -1,4 +1,4 @@
-Hokkaido.pm Castual#13
+Hokkaido.pm Casual#13
 ======================
 
 @aloelight
