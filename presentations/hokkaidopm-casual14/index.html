@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" class="step slide" data-y="0" data-x="0">
+<h1>Hokkaido.pm Casual#14</h1>
+
+<p>@aloelight</p>
+
+</div>
+<div class="step slide" data-y="0" data-x="1200">
+<h2>自己紹介</h2>
+
+<p><img src="http://www.gravatar.com/avatar/b4ff5cbfba3187bf486733b00653950c.png" alt="icon" /></p>
+
+<ul>
+<li>Twitter @aloelight</li>
+<li>github ysasaki</li>
+<li>Webプログラマ</li>
+<li>業務ではPerlがメイン</li>
+<li>守備範囲はインフラからアプリ開発、保守・運用あたり</li>
+<li>最近やっているゲームはWorld of Tanks, Scrollsとか</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="2400">
+<h2>ワンライナー特集</h2>
+
+<ul>
+<li><code>perl -E 'say "One Liner!!"'</code></li>
+<li>perlのオプションを幾つか覚えるとよい</li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="3600">
+<h2>覚えるべきオプション</h2>
+
+<ul>
+<li><code>perldoc perlrun</code>に書いてあるよ</li>
+</ul>
+
+<hr />
+
+<ul>
+<li><code>-E</code>, <code>-e</code>
+<ul>
+<li>引数を実行する。新しいperlだと<code>-E</code>を使えて、<code>say</code>とか使えるようになる</li>
+</ul></li>
+<li><code>-l</code>
+<ul>
+<li><code>print</code>に改行を自動で付けてくれる。<code>-E</code>が使えない場合には<code>print</code>が<code>say</code>の変わりになる</li>
+</ul></li>
+<li><code>-M</code>
+<ul>
+<li>いわゆる<code>use</code>。<code>-MFile::Basename</code>なら<code>use File::Basename</code>になる</li>
+</ul></li>
+<li><p><code>-n</code> と<code>-p</code></p>
+
+<ul>
+<li><p>標準入力を受け取るときに、各行毎に実行してくれる</p>
+
+<pre><code>&gt; cat user.dat
+techno-nantoka
+aloelight
+
+
+&gt; cat user.dat | perl -nle 'print "$. $_"'
+1. techno-nantoka
+2. aloelight
+</code></pre></li>
+<li><p><code>-p</code>の場合は最後に自動で<code>$_</code>をprintしてくれる</p>
+
+<pre><code>&gt; cat user.dat | perl -pe 's/nantoka/neko/'
+techno-neko
+aloelight
+</code></pre></li>
+</ul></li>
+<li><p><code>-a</code> と <code>-F</code></p>
+
+<ul>
+<li><code>$_</code>を<code>' '</code>でsplitして<code>@F</code>に入れる</li>
+<li><p><code>-F</code>でsplitに使うパターンを指定できる</p>
+
+<pre><code>&gt; cat user.dat | perl -F/-/ -naE 'say $F[0]'
+techno
+aloelight
+</code></pre></li>
+</ul></li>
+<li><p><code>-i</code></p>
+
+<ul>
+<li>出力したデータでファイルの書き換え</li>
+<li><p>引数で書き換え前のデータをrenameして保存できる</p>
+
+<pre><code>&gt; cat user.dat
+techno-nantoka
+aloelight
+
+
+&gt; perl -i.bak -pe 's/nantoka/cat/' user.dat
+&gt; cat user.dat
+techno-cat
+aloelight
+
+
+&gt; ls -1
+user.dat
+user.dat.bak
+</code></pre></li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="4800">
+<h2>困ったときのオプション</h2>
+
+<p>挙動がよくわからないときは<code>-MO=Deparse</code>を付けると捗る</p>
+
+<pre><code>    perl -MO=Deparse -i.bak -pe 's/nantoka/neko/' user.dat
+    BEGIN { $^I = ".bak"; }
+    LINE: while (defined($_ = &lt;ARGV&gt;)) {
+        s/nantoka/neko/;
+    }
+    continue {
+        die "-p destination: $!\n" unless print $_;
+    }
+    -e syntax OK
+</code></pre>
+
+</div>
+<div class="step slide" data-y="800" data-x="0">
+<h2>イディオムっぽい感じ</h2>
+
+<ul>
+<li><p>find(ack)と一緒に</p>
+
+<pre><code>find . -type f | perl -MString::CamelCase=camelize -MFile::Basename -nE 'chomp; ($base, undef, $suffix) = fileparse($_, ".rb"); $dst = camelize($base) . $suffix; say $dst; rename $_, $dst'
+</code></pre></li>
+<li><p>find(ack) + xargsと一緒に</p>
+
+<pre><code>find {bin,lib,t} -type f -name '*.pm' | xargs perl -i -pe 's/Dancer/Dancer2/g'
+
+
+ack 'Ads::C::' lib/ t/ -l | xargs perl -i -pe 's/Ads::C::/Ads::Controller::/g'
+</code></pre></li>
+<li><p>END blockを使って最後のみ表示</p>
+
+<pre><code>cat cleaning-log | cut -d' ' -f1 | perl -nle '$t+=$_; END {print "total: $t"}'
+</code></pre></li>
+<li><p>なんとなくその場でstaticファイルを垂れ流したいとき</p>
+
+<pre><code>plackup -ML -e 'Plack::App::Directory-&gt;new-&gt;to_app'
+</code></pre></li>
+<li><p>適当な文字列がほしい</p>
+
+<pre><code>perl -ML -E 'say String::Random-&gt;new-&gt;randregex("[0-9a-za-Z]{16}")'
+</code></pre></li>
+<li><p>整形して違うコマンド実行</p>
+
+<pre><code>cat slave | perl -nle 'chomp; system qw/whois -h whois.jprs.jp/, $_; sleep 5' | tee out
+</code></pre></li>
+<li><p>bytes数の単位の変換</p>
+
+<pre><code>perl -le 'print 1774724773 / (1024**3)'
+</code></pre></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="1200">
+<h2>ワンライナー向けモジュール</h2>
+
+<ul>
+<li><a href="http://p3rl.org/L">L</a></li>
+<li><a href="http://p3rl.org/IO::All">IO::All</a></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="800" data-x="2400">
+<h2>おわり</h2>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script>document.getElementsByTagName('body')[0].style.overflowY = 'scroll';</script>
+</body>
+</html>
+
