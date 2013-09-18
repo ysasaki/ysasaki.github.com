@@ -78,3 +78,5 @@ dtrace
 * Devel::Peek perlのデータ構造が見れる
 * Devel::Cycle 循環参照を探す
 * Vim::Debug vim上からperl debuggerを動かす。vimを--with-perl付きでbuildする必要あり
+* Carp::Reply
+* Plack::Middleware::Reply

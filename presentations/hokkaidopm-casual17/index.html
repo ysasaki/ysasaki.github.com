@@ -15,13 +15,13 @@
         <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
     </div>
 
-<div data-x="0" id="title" class="step slide" data-y="0">
+<div data-x="0" class="step slide" id="title" data-y="0">
 <h1>Hokkaido.pm Casual#17</h1>
 
 <p>@aloelight</p>
 
 </div>
-<div class="step slide" data-x="1200" data-y="0">
+<div data-y="0" class="step slide" data-x="1200">
 <h2>はじめてのPerlデバッグ</h2>
 
 <ul>
@@ -32,7 +32,7 @@
 </ul>
 
 </div>
-<div data-y="0" data-x="2400" class="step slide">
+<div data-x="2400" class="step slide" data-y="0">
 <h2>printデバッグ</h2>
 
 <ul>
@@ -49,7 +49,7 @@ print Dumper($foo);
 </ul>
 
 </div>
-<div data-x="3600" class="step slide" data-y="0">
+<div class="step slide" data-x="3600" data-y="0">
 <h2>Smart::Comments</h2>
 
 <ul>
@@ -91,7 +91,7 @@ for (@values) {    ### Progressing===&gt;  done
 </ul>
 
 </div>
-<div data-y="0" data-x="4800" class="step slide">
+<div data-x="4800" class="step slide" data-y="0">
 <h2>perl -d</h2>
 
 <ul>
@@ -104,7 +104,7 @@ for (@values) {    ### Progressing===&gt;  done
 </ul>
 
 </div>
-<div class="step slide" data-x="0" data-y="800">
+<div data-x="0" class="step slide" data-y="800">
 <h2>dtrace</h2>
 
 <ul>
@@ -122,6 +122,8 @@ for (@values) {    ### Progressing===&gt;  done
 <li>Devel::Peek perlのデータ構造が見れる</li>
 <li>Devel::Cycle 循環参照を探す</li>
 <li>Vim::Debug vim上からperl debuggerを動かす。vimを--with-perl付きでbuildする必要あり</li>
+<li>Carp::Reply</li>
+<li>Plack::Middleware::Reply</li>
 </ul>
 
 </div>

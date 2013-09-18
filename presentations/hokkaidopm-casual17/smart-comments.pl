@@ -19,7 +19,7 @@ eval {
 };
 
 my @values = ( 1 .. 10 );
-for (@values) {    ### Progressing===>  done
+for (@values) {    ### Progressing===[%]  done
     sleep 1;
 }
 
