@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" data-y="0" class="step slide" data-x="0">
+<h1>Perl Beginners#10 LT</h1>
+
+<p>Hokkaido.pm
+@aloelight</p>
+
+</div>
+<div data-x="1200" class="step slide" data-y="0">
+<h2>Smart::Comments</h2>
+
+<ul>
+<li>コメントを使ってprintデバッグ</li>
+<li>内部はSource Filtersを使って実装
+<ul>
+<li>詳しく知りたい人はperldoc perlfilter</li>
+</ul></li>
+</ul>
+
+</div>
+<div data-y="0" data-x="2400" class="step slide">
+<h2>この資料について</h2>
+
+<ul>
+<li>Hokkaido.pm Casual#17でのLT資料の改変</li>
+<li>スライド
+<ul>
+<li>https://ysasaki.github.io/presentations/perl-beginners10/</li>
+</ul></li>
+<li>リポジトリ
+<ul>
+<li>https://github.com/ysasaki/ysasaki.github.com/presentations/perl-beginners10/</li>
+</ul></li>
+</ul>
+
+</div>
+<div data-x="3600" class="step slide" data-y="0">
+<h2>使用例</h2>
+
+<p><font color="#ffcc00">###</font>を使ってprintデバッグ</p>
+
+<pre><code>use strict;
+use warnings;
+use feature qw(say);
+
+my $foo = [1,2,3,4,5];
+### $foo
+
+my $bar = { foo =&gt; 1, bar =&gt; 2 };
+### $bar
+
+for (1..10) { ### Working---&gt;  done
+    sleep 1;
+}
+
+say "スクリプト終了";
+</code></pre>
+
+<p>実行結果</p>
+
+<pre><code>&gt; perl -MSmart::Comments demo01.pl
+### $foo: [
+###         1,
+###         2,
+###         3,
+###         4,
+###         5
+###       ]
+
+### $bar: {
+###         bar =&gt; 2,
+###         foo =&gt; 1
+###       }
+スクリプト終了
+</code></pre>
+
+<p>ループ部分はプログレスバーが表示される</p>
+
+<pre><code>Working&gt;                       done
+Working------&gt;                 done
+Working------------&gt;           done
+Working--------------------&gt;   done
+</code></pre>
+
+</div>
+<div data-x="4800" class="step slide" data-y="0">
+<h2>ポイント</h2>
+
+<ul>
+<li>コアモジュールじゃないので<font color="#ffcc00">cpanm Smart::Comments</font>でinstall</li>
+<li>通常のprintデバッグのように消し忘れがない</li>
+<li>スクリプト内に<font color="#ffcc00">use Smart::Comments</font>しない
+<ul>
+<li><font color="#ffcc00">perl -MSmart::Comments foo.pl</font>のように使う</li>
+<li>環境変数で指定する方法もあるけどお薦めしない</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-x="0" data-y="800">
+<h2>デバッグレベルの調整</h2>
+
+<pre><code>use strict;
+use warnings;
+use feature qw(say);
+
+my $foo = [1,2,3,4,5];
+### $foo
+
+my $bar = { foo =&gt; 1, bar =&gt; 2 };
+#### $bar
+
+for (1..10) { ##### Working---&gt;  done
+    sleep 1;
+}
+
+say "スクリプト終了";
+</code></pre>
+
+<ul>
+<li>-MSmart::Comments=###だと$fooだけ出力</li>
+<li>-MSmart::Comments=####だと$barだけ出力</li>
+<li>-MSmart::Comments=#####だとループ部分だけ出力</li>
+<li>複数のレベルを出したい時は<font color="#ffcc00">カンマ区切り</font>で指定
+<ul>
+<li>-MSmart::Comments=###,####</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-x="1200" data-y="800">
+<h2>アサーション機能</h2>
+
+<pre><code>use strict;
+use warnings;
+use feature qw(say);
+
+sub subtract {
+    my ($x, $y) = @_;
+    ### require: $x &gt;= $y
+    say $x - $y;
+}
+
+subtract(2,1);
+subtract(2,2);
+subtract(2,3);
+
+say "スクリプト終了";
+</code></pre>
+
+<p>実行結果</p>
+
+<pre><code>&gt; perl -MSmart::Comments demo03.pl
+1
+0
+
+### $x &gt;= $y was not true at demo03.pl line 7.
+###     $x was: 2
+###     $y was: 3
+</code></pre>
+
+</div>
+<div class="step slide" data-x="2400" data-y="800">
+<h2>まとめ</h2>
+
+<ul>
+<li>消し忘れがないのは安心</li>
+<li>プログレスバーはかっこいい</li>
+<li>use Smart::Commentsじゃなくて、<font color="#ffcc00">perl -MSmart::Comments</font>する</li>
+<li>Source Filters使ってるからあまり速くないよ</li>
+</ul>
+
+</div>
+<div data-y="800" class="step slide" data-x="3600">
+<h2>__END__</h2>
+
+<p>ご清聴ありがとうございました</p>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="../../google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
