@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div data-x="0" data-y="0" class="step slide" id="title">
+<h1>Hokkaido.pm Casual#18</h1>
+
+<p>@aloelight</p>
+
+</div>
+<div data-x="1200" data-y="0" class="step slide">
+<h2>続・Perlの開発環境</h2>
+
+<ul>
+<li>Perlでの開発で必要なもの
+<ul>
+<li>Perl処理系</li>
+<li>エディタ</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-y="0" data-x="2400">
+<h2>Perl処理系</h2>
+
+<ul>
+<li>plenvで最新の安定版を入れる
+<ul>
+<li>今なら5.18.1</li>
+</ul></li>
+<li>とりあえずsystem perlじゃなければいい
+<ul>
+<li>cpanmで好きなモジュールを入れられる</li>
+</ul></li>
+<li>複数のバージョンが必要なとき
+<ul>
+<li>CPAN Author</li>
+<li>商用、開発でバージョンが違う</li>
+</ul></li>
+<li>インストール方法はplenv/README.mdに書いてある</li>
+</ul>
+
+</div>
+<div class="step slide" data-x="3600" data-y="0">
+<h2>エディタ</h2>
+
+<ul>
+<li>好きなエディタでよい</li>
+<li>私はVim</li>
+</ul>
+
+</div>
+<div data-x="4800" data-y="0" class="step slide">
+<h2>Vim</h2>
+
+<ul>
+<li>vim 7.3以上</li>
+<li>Plugin管理はNeoBundle</li>
+<li>開発時に使ってるPlugin
+<ul>
+<li>gtags.vim</li>
+<li>vim-ref</li>
+<li>emmet-vim (旧zen-coding)</li>
+<li>perlvalidate-vim</li>
+<li>syntastic</li>
+<li>neocomplcache</li>
+<li>neosnippet</li>
+<li>unite.vim</li>
+<li>taglist.vim</li>
+<li>vim-quickrun</li>
+</ul></li>
+</ul>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
