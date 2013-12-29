@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" class="step slide" data-x="0" data-y="0">
+<h1>今年書いたPerlのコード</h1>
+
+<p>Hokkaido.pm#11
+@aloelight</p>
+
+</div>
+<div data-x="1200" class="step slide" data-y="0">
+<h2>EnvDir</h2>
+
+<pre><code># Load environment variables from ./env
+use EnvDir -autoload;
+
+# You can specify a directory.
+use EnvDir -autoload =&gt; '/path/to/dir';
+
+# envdir function returns a guard object.
+use EnvDir 'envdir';
+
+$ENV{PATH} = '/bin';
+{
+    my $guard = envdir('/path/to/dir');
+}
+# PATH is /bin from here
+</code></pre>
+
+</div>
+<div data-y="0" data-x="2400" class="step slide">
+<h2>Text::Sass::XS</h2>
+
+<ul>
+<li>libsassのperl binding</li>
+<li>Text::Sass
+<ul>
+<li>別の人のPure Perl実装</li>
+</ul></li>
+<li>CSS::Sass(libsass binding)
+<ul>
+<li>元々あったやつ</li>
+<li>ぶっ壊れてるから別に作った</li>
+</ul></li>
+</ul>
+
+</div>
+<div class="step slide" data-x="3600" data-y="0">
+<h2>P::M::Assets::RailsLike</h2>
+
+<ul>
+<li>RailsのAsset Pipelineのパクり</li>
+<li>デフォルトの設定でもそこそこ動く</li>
+<li><p>productionで使う場合はprecompilerを利用してください</p>
+
+<pre><code>use strict;
+use warnings;
+use MyApp;
+use Plack::Builder;
+
+
+my $app = MyApp-&gt;new-&gt;to_app;
+builder {
+    enable 'Assets::RailsLike', root =&gt; './htdocs';
+    $app;
+};
+</code></pre></li>
+</ul>
+
+</div>
+<div data-y="0" data-x="4800" class="step slide">
+<h2>Tamanegi</h2>
+
+<ul>
+<li>PSGI Web Server</li>
+<li>libonionを使用
+<ul>
+<li>Lightweight C library to add web server functionality to your program</li>
+<li>pthread + epoll
+<ul>
+<li>kqueue対応がなかったので、MacOSで動かすために実装した</li>
+</ul></li>
+</ul></li>
+<li>mod_perlを参考にしてpthread周りを書いたけど、負荷をかけると死ぬので未公開</li>
+</ul>
+
+</div>
+<div class="step slide" data-x="0" data-y="800">
+<h2>Webistrano::Lite</h2>
+
+<ul>
+<li>capistrano3のWeb Frontend</li>
+<li>Webistranoはcapistrano2系しか対応してない</li>
+<li>最低限できたところで放置</li>
+</ul>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
