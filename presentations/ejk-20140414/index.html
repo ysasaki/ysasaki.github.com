@@ -1,0 +1,532 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no">
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/impress.css" rel="stylesheet" />
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
+</head>
+<body>
+<div id="impress" class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 (to be released soon) will also handle it.</p>
+    </div>
+
+<div id="title" data-y="0" data-x="0" class="step slide">
+<h1>Hack/HHVM</h1>
+
+<p>Yoshihiro Sasaki &lt;yosasaki at reado.jp&gt;</p>
+
+</div>
+<div class="step slide" data-x="1200" data-y="0">
+<h2>概要</h2>
+
+<ul>
+<li>facebookが開発</li>
+<li>HipHopVirtualMachineの略
+<ul>
+<li>JITコンパイラ</li>
+</ul></li>
+<li>PHPとHack用の実行環境
+<ul>
+<li>Hack = PHP + 静的型</li>
+</ul></li>
+<li>実行環境HHVMと言語のHack or PHPの組み合わせ
+<ul>
+<li>Java/JVM, C#/CLR, JavaScript/V8と一緒</li>
+</ul></li>
+<li>人気のフレームワーク（WAF以外も含む）を20個対応する予定らしい
+<ul>
+<li><a href="https://github.com/facebook/hhvm/blob/master/hphp/test/frameworks/frameworks.yaml">hphp/test/frameworks/frameworks.yaml</a></li>
+<li>codeigniter, composer, drupal, facebookphpsdk, kohana, laravel, mediawiki, meganto2, pear, phpunit, phpmyadmin, slim, symfonyなどなど</li>
+</ul></li>
+</ul>
+
+</div>
+<div data-x="2400" class="step slide" data-y="0">
+<h2>歴史的な話し</h2>
+
+<ol>
+<li>PHPが遅いのでサーバコスト半端ねぇ</li>
+<li>2008年、HipHop作成
+<ul>
+<li>PHPをC++に変換してコンパイルすれば速くなる</li>
+<li>当時のZendより6倍速かったらしい</li>
+<li>コンパイラ HPHPc, インタプリタ HPHPi, デバッガー HPHPd</li>
+</ul></li>
+<li>2010年 HPHPをOSSとして公開</li>
+<li>2010年 HHVMを作成
+<ul>
+<li>HPHPcとHPHPdのつじつまが合わなくなってきた</li>
+<li>C++からコンパイルするのがしんどい</li>
+<li>速度的に頭打ちがみえてきた</li>
+</ul></li>
+<li>2012年 HHVMがHPHPcの速度を越える</li>
+<li>2013年 facebook.comをHHVMで稼働</li>
+<li>2014年 HHVM 3.0.0とHackをOSS化</li>
+</ol>
+
+</div>
+<div class="step slide" data-x="3600" data-y="0">
+<h2>Hackの機能</h2>
+
+<ul>
+<li>Type Annotations</li>
+<li>Generics</li>
+<li>Nullable</li>
+<li>Collections</li>
+<li>Shapes</li>
+<li>Type Aliasing</li>
+<li>Async</li>
+<li>Continuations</li>
+<li>Constructor Argument Promotion</li>
+</ul>
+
+</div>
+<div data-x="4800" class="step slide" data-y="0">
+<h2>Type Annotations</h2>
+
+<p>PHP</p>
+
+<pre><code>&lt;?php
+class MyClass {
+  const MyConst = 0;
+
+  private $x;
+
+  public function increment($x) {
+    $y = $x + 1;
+    return $y;
+  }
+}
+</code></pre>
+
+<p>Hack</p>
+
+<pre><code>&lt;?hh
+class MyClass {
+  const int MyConst = 0;
+
+  private string 1x = '';
+
+  public function increment(int 1x): int {
+    1y = 1x + 1;
+    return 1y;
+  }
+}
+</code></pre>
+
+</div>
+<div data-y="800" class="step slide" data-x="0">
+<h2>Generics</h2>
+
+<pre><code>&lt;?hh
+class Box&lt;T&gt; {
+  protected T $data;
+
+  public function __construct(T $data) {
+    $this-&gt;data = $data;
+  }
+
+  public function getData(): T {
+    return $this-&gt;data;
+  }
+}
+
+function main_gen() {
+  $gi = new Box(3);
+  $gs = new Box("Hi");
+  $ga = new Box(array());
+  echo $gi-&gt;getData()."\n";
+  echo $gs-&gt;getData()."\n";
+  echo $ga-&gt;getData()."\n";
+}
+
+main_gen();
+</code></pre>
+
+</div>
+<div data-y="800" class="step slide" data-x="1200">
+<h2>Nullable</h2>
+
+<pre><code>&lt;?hh
+function check_not_null(?int $x): int {
+  if ($x === null) {
+    return -1;
+  } else {
+    return $x;
+  }
+}
+</code></pre>
+
+</div>
+<div data-y="800" data-x="2400" class="step slide">
+<h2>Collections</h2>
+
+<ul>
+<li>Vector/ImmVector</li>
+<li>Map/ImmMap</li>
+<li>Set/ImmSet</li>
+<li>Pair</li>
+</ul>
+
+<p>Vector</p>
+
+<pre><code>$vector = Vector {5, 10, 15};
+
+$vector[] = 20;
+echo $vector[0] . "\n";
+echo $vector-&gt;get(1) . "\n";
+$vector[0] = 999;
+$vector-&gt;removeKey(2);
+
+foreach ($vector as $v) {
+  echo $v . "\n";
+}
+
+for ($i = 0; $i &lt; count($vector); ++$i) {
+  echo $vector[$i] . "\n";
+}
+
+foreach ($vector as $k =&gt; $v) {
+  echo $k . ": " . $v . "\n";
+}
+</code></pre>
+
+</div>
+<div class="step slide" data-x="3600" data-y="800">
+<h2>Arrays</h2>
+
+<p>所謂PHPのArrayに相当する。Collectionsの方を使ってね</p>
+
+<pre><code>class HackArrays&lt;T&gt; {
+  private array $arr = null;
+  private array&lt;T&gt; $arr2 = null;
+  private array&lt;string, string&gt; $arr3 = null;
+
+  public function __construct(T $data) {
+    $this-&gt;arr2[0] = $data;
+  }
+
+  public function bar(T $data): void {
+    $this-&gt;arr = array();
+    var_dump($this-&gt;arr);
+    $this-&gt;arr2[] = $data;
+    var_dump($this-&gt;arr2);
+    $this-&gt;arr3["hi"] = new Foo();
+    var_dump($this-&gt;arr3);
+  }
+}
+</code></pre>
+
+</div>
+<div data-y="800" data-x="4800" class="step slide">
+<h2>Type Aliasing</h2>
+
+<p>Type Aliasing</p>
+
+<pre><code>&lt;?hh
+type MyInt = int;
+function foo(MyInt $mi): void {}
+</code></pre>
+
+<p>Opaque Type Aliasing</p>
+
+<pre><code>&lt;?hh
+newtype MyInt = int;
+function foo(MyInt $mi): void {}
+</code></pre>
+
+<p>Opaque Type Aliasingはファイルでスコープが区切られる</p>
+
+<p>File1.php</p>
+
+<pre><code>&lt;?hh
+newtype MyInt = int;
+</code></pre>
+
+<p>File2.php</p>
+
+<pre><code>&lt;?hh
+require_once "File1.php";
+
+function foo(): MyInt { // Error!!
+  return 1;
+}
+</code></pre>
+
+</div>
+<div data-y="1600" data-x="0" class="step slide">
+<h2>Shapes</h2>
+
+<pre><code>type Point2D = shape('x' =&gt; int, 'y' =&gt; int);
+
+function dotProduct(Point2D $a, Point2D $b): int {
+  var_dump($a);
+  var_dump($b);
+  return $a['x'] * $b['x'] + $a['y'] * $b['y'];
+}
+
+function main_sse(): void {
+  echo dotProduct(shape('x' =&gt; 3, 'y' =&gt; 3), shape('x' =&gt; 4, 'y' =&gt; 4));
+}
+
+main_sse();
+</code></pre>
+
+</div>
+<div data-y="1600" class="step slide" data-x="1200">
+<h2>Async</h2>
+
+<p>async/awaitが使える</p>
+
+<pre><code>&lt;?hh
+
+class Foo{}
+class Bar {
+  public function getFoo(): Foo {
+    return new Foo();
+  }
+}
+
+async function gen_foo(int $a): Awaitable&lt;?Foo&gt; {
+  if ($a === 0) {
+    return null;
+  }
+
+  $bar = await gen_bar($a);
+  if ($bar !== null) {
+    return $bar-&gt;getFoo();
+  }
+
+  return null;
+}
+
+async function gen_bar(int $a): Awaitable&lt;?Bar&gt; {
+  if ($a === 0) {
+    return null;
+  }
+
+  return new Bar();
+}
+
+
+gen_foo(4);
+</code></pre>
+
+</div>
+<div class="step slide" data-x="2400" data-y="1600">
+<h2>Tuples</h2>
+
+<p>固定サイズのArray</p>
+
+<pre><code>$tup = tuple('3', 2, 3, 4, 'hi');
+</code></pre>
+
+</div>
+<div data-y="1600" data-x="3600" class="step slide">
+<h2>Override Attribute</h2>
+
+<pre><code>// file1.php
+&lt;?hh
+
+class CParent {
+  public function doStuff(): void {
+    return $this-&gt;implementation();
+  }
+  protected function implementation(): void {
+    echo 'parent implementation', "\n";
+  }
+}
+
+// file2.php
+&lt;?php
+class Child extends CParent {
+  &lt;&lt;Override&gt;&gt; protected function implementation(): void {
+    echo 'child implementation', "\n";
+  }
+}
+</code></pre>
+
+</div>
+<div data-y="1600" class="step slide" data-x="4800">
+<h2>Constructor Argument Promotion</h2>
+
+<p>よくあるクラス定義</p>
+
+<pre><code>&lt;?hh
+
+class Person {
+  private string $name;
+  private int $age;
+
+  public function __construct(string $name, int $age) {
+    $this-&gt;name = $name;
+    $this-&gt;age = $age;
+  }
+}
+</code></pre>
+
+<p>短く書ける</p>
+
+<pre><code>&lt;?hh
+class Person {
+  public function __construct(private string $name, private int $age) {}
+}
+</code></pre>
+
+</div>
+<div class="step slide" data-x="0" data-y="2400">
+<h2>HHVMの機能</h2>
+
+<ul>
+<li>FastCGIプロトコルを使用
+<ul>
+<li>2系まではHTTPもサポートしていたが、3系から廃止</li>
+<li>Nginx or Apacheあたりをフロントに置く必要がある</li>
+</ul></li>
+<li>アプリケーション用サーバの他にいろいろあるけど、Administration Server以外は試してない
+<ul>
+<li>Administration Server</li>
+<li>RPC Server</li>
+<li>Internal Page Server</li>
+<li>Xbox Server
+<ul>
+<li>cross-machine communication</li>
+</ul></li>
+<li>Proxy Server</li>
+</ul></li>
+<li>Single Process, Multi-Threads, Non-blockingなアーキテクチャ
+<ul>
+<li>I/O worker x1 がコネクション待ち受け</li>
+<li>I/O worker xn がその後を担当</li>
+<li>HHVM worker xn がアプリケーションコードを実行</li>
+</ul></li>
+</ul>
+
+</div>
+<div data-x="1200" class="step slide" data-y="2400">
+<h2>サーバの起動</h2>
+
+<p>こんな感じで起動する</p>
+
+<pre><code>&gt; hhvm --mode server -vServer.Type=fastcgi -vServer.Port=9000
+</code></pre>
+
+<p>FastCGIプロトコルなのでNginx等を挟んでアクセスする。</p>
+
+<p>Nginxの設定</p>
+
+<pre><code>root /path/to/your/www/root/goes/here;
+fastcgi_pass   127.0.0.1:9000;
+fastcgi_index  index.php;
+fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+include        fastcgi_params;
+</code></pre>
+
+</div>
+<div data-y="2400" class="step slide" data-x="2400">
+<h2>サーバの設定</h2>
+
+<p>config.hdfに書いて読み込ませる。php.iniも読むらしい。
+色々とドキュメントが不足していて、どれが有効でどれが無効かわからない。
+廃止されているのも混じってたりする</p>
+
+<p>config.hdf</p>
+
+<pre><code>Server {
+  Mode = fastcgi
+  Port = 9000
+}
+Eval {
+  JitASize = 10485760 # 10 MB
+  JitAStubsSize = 10485760 # 10 MB
+  JitGlobalDataSize = 2097152 # 2 MB
+  EnableZendCompat = true
+}
+MySQL {
+  ReadTimeout = 5000
+}
+ErrorHandling {
+  NoticeFrequency = 1
+  WarningFrequency = 1
+}
+</code></pre>
+
+<p>php.ini</p>
+
+<pre><code>[date]
+date.timezone = Asia/Tokyo
+
+[php]
+error_reporting = E_ALL &amp; ~E_NOTICE
+
+[hhvm]
+hhvm.eval.jit = false
+</code></pre>
+
+</div>
+<div class="step slide" data-x="3600" data-y="2400">
+<h2>結局使えるのか</h2>
+
+<p>既存プロジェクトの場合</p>
+
+<ul>
+<li>まだ早い
+<ul>
+<li>ドキュメントの整備不足</li>
+<li>既存プロジェクトが動くか大分怪しい</li>
+</ul></li>
+<li>使える時期が来ないかも知れない
+<ul>
+<li>KohanaくらいならGWでHack対応できるんじゃね？</li>
+</ul></li>
+</ul>
+
+<p>新規プロジェクトの場合</p>
+
+<ul>
+<li>きちんと動くWAFがあるならいいかも</li>
+<li>PHPに型をつけただけなので、乗り換えやすい</li>
+<li>メンバーがPHP以外も書けるようなら、別言語でいい気がする</li>
+</ul>
+
+</div>
+<div data-y="2400" data-x="4800" class="step slide">
+<h2>終わり</h2>
+
+<p>ご清聴ありがとうございました。</p>
+
+</div>
+
+
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+<script src="js/impress.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="js/jquery.scrollTo-min.js"></script>
+<script src="js/impress.remote.client.js"></script>
+<script src="google-code-prettify/prettify.js" type="text/javascript"></script>
+<script>
+$(function(){
+    $('code').addClass('prettyprint');
+    prettyPrint();
+});
+</script>
+</body>
+</html>
+
